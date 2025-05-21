@@ -222,7 +222,175 @@
     |---------------------|--------------------------------------------------------|--------------------------------------------------|------------------------------------------------|
     | Csapatmunka         | Szakaszok közötti átadás dominál.                      | Egyirányú kommunikáció a fázisok között.         | Folyamatos csapatmunka és visszacsatolás.      |
     |---------------------|--------------------------------------------------------|--------------------------------------------------|------------------------------------------------|
-    | Tesztelési módszerek| Statikus és dinamikus tesztelés kombinációja.          | Elsősorban végső, dinamikus tesztelés.           | Automatikus és manuális tesztelés iterációkban.|
+    | Tesztelési módszerek| Statikus és dinamikus tesztelés kombinációja.          | Elsősorban végső, dinamikus tesztelés.           | Automatikus és manuális tesztelésiterációkban.|
+
+
+#### ✅ Milyen lépéseket követnél egy hiba megtalálásakor?
+
+        Először pontosan azonosítanám a hibát, magyarul mikor jelenik meg a hiba és milyen hibát okoz az eset. Eztán dokumentálom is a hibát. Megpróbálomn reprodukálni a hibát, hogy valóban egy folyamatosan fennálló hibáról van- e szó, vagy csak egy véletlen hiba történt. Folytatásképpen elkezdem az egységeket külön külön kezelni, hogy megtudjam, mi az ami működik és mi az, ami nem. Miután a hiba megvan, megnézem, hogy volt e a közelmúltban valami változtatás a kódban, esetleg van e valahol logikai hiba. Ha ez is megvan, javítom a hibát és újratesztelek. Ha minden rendben van, elkészítem a dokumentációt.
+
+#### ✅ Beszélj a gyakori tesztjelentésekről és részleteikről!
+
+        A tesztjelentés célja, hogy összefoglalja és átadja a tesztelési tevékenységre vonatkozó információkat a 
+        tesztelési tevékenység (például egy tesztszint) során és annak végén. A vizsgálati tevékenység során 
+        elkészített tesztjelentést más néven tesztelőrehaladási jelentésnek, míg a tesztelési tevékenység végén 
+        elkészített tesztjelentést összefoglaló tesztjelentésnek is nevezik.
+
+        A tipikus összefoglaló tesztjelentések az alábbiakat tartalmazhatják:
+            - Az elvégzett tesztelés összefoglalása
+            - Tájékoztatás a tesztelési időszak alatt történtekről
+            - Eltérések a tervtől, beleértve a tesztelési tevékenységek ütemtervét, időtartamát vagy a ráfordításokat
+            - A tesztelés és a termékminőség állapota a kilépési kritériumok vagy a „kész” definíciójának tekintetében
+            - Azok a tényezők, amelyek blokkolták vagy továbbra is blokkolják a haladást
+            - A hibák, a tesztesetek, a teszt lefedettség, a tevékenység előrehaladása és az erőforrás-fogyasztás mérőszámai 
+            - A fennmaradó kockázatok 
+            - Újrahasznosítható tesztelési munkatermékek
+
+        A tesztjelentés tartalma a projekttől, a szervezeti követelményektől és a szoftverfejlesztési életciklustól függően változik. A tesztjelentéseknek a projekt kontextusá
+        alapuló testre szabása mellett a tesztjelentéseket a jelentés közönségének megfelelően kell kialakítani
+
+#### ✅ Mit tartalmaz egy hibajelentés?
+
+        Mivel a tesztelés egyik célja, hogy hibákat találjon, a tesztelés során talált hibákat rögzíteni kell.
+
+         hibajelentés általában a következőket tartalmazza:
+            - Azonosító
+            - A bejelentett hiba címe és rövid összefoglalása
+            - A hibajelentés dátuma, a kibocsátó szervezet és a szerző
+            - A tesztelem (az éppen tesztelt konfigurációs elem) és a környezet azonosítója
+            - A fejlesztési életciklus fázisa(i), amelyben a hibát észlelték
+            - A hiba reprodukálását és megoldását lehetővé tevő leírás, beleértve a naplófájlokat, az adatbázis mentéseket, képernyőképeket vagy felvételeket (ha volt ilyen a teszt végrehajtása során)
+            - Elvárt és tényleges eredmények
+            - A hiba súlyosságának (severity) hatóköre vagy mértéke az érdekelt felek érdekeit tekintve
+            - A javítás sürgőssége/prioritása
+            - A hibajelentés állapota (pl. nyitott, elhalasztott, duplikált, megoldásra váró, ellenőrző tesztelésre váró, újranyitva, lezárt)
+            - Következtetések, ajánlások és jóváhagyások
+            - Globális problémák, például olyan területek, amelyekre a hibából eredő változás hatással lehet
+            - Változási előzmények, mint például a projektcsapat tagjai által a hibával kapcsolatos lépések, hogy elkülönítsék, javítsák és ellenőrizzék azt
+            - Hivatkozások, beleértve a problémát feltáró tesztesetet is
+
+
+#### ✅ Hogyan rangsorolnál egy hibát?
+
+        A hibát két féle kéépen lehet csoportosítani:
+            - Súlyosság
+            - Prioritás
+
+        Súlyosság alapján:
+            - Kritikus (Critical) - A rendszer teljesen használhatatlan (pl. nem indul el).
+            - Magas (High) - Fő funkció nem működik, de a rendszer fut.
+            - Közepes (Medium) - Másodlagos funkció hibás, kerülőút lehetséges.
+            - Alacsony (Low) - Esztétikai vagy kisebb hiba, nincs funkcionális hatása.
+
+        Prioritás alapján:
+            - Magas - Azonnali javítást igényel.
+            - Közepes -	Hamar javítani kell, de nem kritikus.
+            - Alacsony - A javítás ráér, nem sürgős.
+
+
+#### ✅ Melyik teszteseteket érdemes automatizálni és melyiket nem?
+
+        Tesztesetek, amiket érdemes automatizálni:
+
+            - Gyakran ismétlődő tesztek
+                Automatizálva gyorsabb, megbízhatóbb, és nem fárad el, mint az ember.
+
+            - Nagy adat- vagy időigényű tesztek
+                Több ezer bemenettel történő tesztelés, tömeges adatfeldolgozás. Automata futtatás ember helyett, pl. éjszaka is.
+
+            - Stabil és kiszámítható funkciók tesztelése
+                Nincsenek benne gyakori UI vagy design változások.
+
+            - Integrációs és regressziós tesztek
+                Ha egy új fejlesztés visszahatásait vizsgáljuk a meglévő rendszerre. Automatikusan figyelmeztet, ha valami "elromlott".
+
+            - Platformfüggetlen, jól szkriptelhető tesztek
+                REST API tesztek, parancssori eszközök tesztelése.
+
+        Tesztesetek, amiket nem éredemes automatizálni:
+
+            - UI/UX vagy vizuális tesztek
+                Nehéz automatizálni, szubjektív értékelés szükséges.
+
+            - Egyszeri vagy ritkán használt tesztek
+                Automatizálás költsége nagyobb, mint a manuális futtatás haszna.
+
+            - Explorációs tesztelés
+                Szabad felfedezés, hibakeresés új funkcióknál, ahol még nincs minden véglegesítve. Tesztelő kreativitása fontosabb, mint az ismétlés.
+
+            - Gyorsan változó funkciók tesztje
+                Ha a funkció vagy UI még nem végleges, és gyakran változik. Automatizált tesztek gyakran "eltörnek", így a karbantartásuk túl költséges lenne.
+
+
+
+#### ✅ Írj le egy jó automatizált tesztet!
+
+        Egy jó automatizált teszt:
+            - Egyértelmű: 
+                pontosan meghatározza, mit tesztel.
+            - Izolált: 
+                ne függjön más teszttől vagy környezeti állapottól.
+            - Ismételhető: 
+                mindig azonos eredményt adjon azonos körülmények között.
+            - Gyors: 
+                ehetőleg néhány másodperc alatt fusson le.
+            - Olvasható és karbantartható.
+
+
+
+#### ✅ Mi a Selenium, Selenium IDE és Selenium WebDriver?
+
+        A Selenium egy nyílt forráskódú tesztautomatizálási keretrendszer, amely lehetővé teszi webalkalmazások automatikus tesztelését különböző böngészőkben és platformokon. Fő célja, hogy utánozza a felhasználói viselkedést (kattintás, gépelés, űrlapküldés stb.), és ezáltal segítse a hibák korai felismerését.
+
+        A Selenium IDE és a Selenium WevDriver egy-egy komponense a Seleniumnak
+
+        Selenium IDE tulajdonságai:
+
+            - Kattintás-alapú tesztfelvevő eszköz: rögzíti a felhasználó interakcióit a weboldallal, és automatikusan generál teszteket.
+            - Kódolási ismeret nem szükséges.
+            - Egyszerű és gyors, de kevésbé rugalmas és nehezebben karbantartható komplex eseteknél.
+
+        Selenium WebDriver tulajdonságai:
+
+            - A legelterjedtebb és legerőteljesebb Selenium-eszköz.
+            - Programozási nyelvekkel használható: Java, Python, C#, JavaScript, stb.
+            - Közvetlenül irányítja a böngészőt – valóban úgy működik, mintha egy ember kezelné.
+            - Robusztus, rugalmas és bővíthető komplex automatizált tesztelési forgatókönyvekhez.
+
+#### ✅ Hogyan lehet azonosítani a webes elemeket?
+
+        Webes elemek azonosítása az automatizált tesztelés egyik legfontosabb lépése – hiszen ezek segítségével „talál rá” a teszt a gombokra, mezőkre, linkekre, stb. A helyes elem-azonosítás megbízhatóbbá és stabilabbá teszi a teszteket.
+
+        Főbb elem-azonosítási módszerek:
+
+            | Módszer          | Mikor hasznos?                                        | Példa                                              |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+            | **ID**           | Egyedi azonosító, ha van                              | `driver.find_element(By.ID, "login-button")`       |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+            | **Name**         | Űrlapmezőknél gyakori                                 | `By.NAME, "email"`                                 |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+            | **Class name**   | Stílusazonosító – nem mindig egyedi                   | `By.CLASS_NAME, "btn-primary"`                     |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |        
+            | **Tag name**     | HTML címke (ritkán önmagában elég)                    | `By.TAG_NAME, "input"`                             |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+            | **Link text**    | Kattintható linkekhez (a teljes link szövege alapján) | `By.LINK_TEXT, "Kijelentkezés"`                    |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+            | **Partial link** | Linkekhez, ha csak a szöveg egy része ismert          | `By.PARTIAL_LINK_TEXT, "Kijel"`                    |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+            | **CSS selector** | Precíz, gyors, jól testreszabható                     | `By.CSS_SELECTOR, "div.form > input[type='text']"` |
+            | ---------------- | ----------------------------------------------------- | -------------------------------------------------- |
+            | **XPath**        | Nagyon rugalmas, komplex szerkezetekhez is jó         | `By.XPATH, "//button[@id='login-button']"`         |
+
+
+#### ✅ Hogyan lehet várni az elemekre, és mi lehet a probléma? Gyűjtsd össze a lehetséges hibákat és okokat!
+
+#### ✅ Hasonlítsd össze a POM és a Keyword Driven Testing megközelítéseket!
+
+#### ✅ Mi a különbség a TDD és BDD között?
+
+#### ✅ Mi az API tesztelés és miért hasznos?
+
+#### ✅ Mi az adatvezérelt tesztelés és miért hasznos?
  
 
 <img src="https://t4.ftcdn.net/jpg/03/90/15/65/360_F_390156585_8w1lsOyICIAOvDCU8tExXW2QwLCOFwXD.jpg" alt="image" width="550" height="400">
