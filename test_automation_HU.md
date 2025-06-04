@@ -384,13 +384,248 @@
 
 #### ✅ Hogyan lehet várni az elemekre, és mi lehet a probléma? Gyűjtsd össze a lehetséges hibákat és okokat!
 
+        Ha egy weboldal lassabban tölt be, vagy az elem csak később jelenik meg, várni kell rá, hogy elérhető legyen. Különben hibát kapunk.
+
+        Háromféle módon lehet várni:
+
+        1. Implicit várakozás
+            Azt mondjuk a tesztnek: „minden keresésnél várjon X másodpercet, ha kell.”
+            Például: „Várj legfeljebb 10 másodpercet minden elemre.”
+
+        2. Explicit várakozás
+            Akkor használjuk, ha csak egy bizonyos elemre akarunk várni.
+            Például: „Várj addig, amíg megjelenik a 'Küldés' gomb.”
+
+        3. Manuális várakozás (nem ajánlott)
+            Fix időt vár: például sleep(5) – de ez pontatlan és felesleges időt is elvehet.
+
+        Lehetséges hibák:
+        - Nem található az elem
+            Még nem töltött be, de a teszt már keresné.
+
+        - Időkorlát lejárt
+            Túl sokat várt, de az elem nem jelent meg.
+
+        - Az elem ott van, de nem kattintható
+            Lehet, hogy még egy másik elem takarja, vagy még tölt.
+
+       -  Az elem eltűnt a DOM-ból
+            Változott az oldal, és az elem már nem ugyanaz.
+
 #### ✅ Hasonlítsd össze a POM és a Keyword Driven Testing megközelítéseket!
+
+        | Tulajdonság          | Page Object Model              | Keyword Driven Testing                      |
+        | -------------------- | ------------------------------ | ------------------------------------------- |
+        | Kinek szól           | Fejlesztők, automatizálók      | Tesztelők, nem programozók is               |
+        | -------------------- | ------------------------------ | ------------------------------------------- |
+        | Tesztformátum        | Kód (pl. Python, Java)         | Táblázat, konfigurációs fájl                |
+        | -------------------- | ------------------------------ | ------------------------------------------- |
+        | Karbantarthatóság    | Jó, külön osztályokkal kezelve | Jó, ha a kulcsszavak jól szervezettek       |
+        | -------------------- | ------------------------------ | ------------------------------------------- |
+        | Rugalmasság          | Magas                          | Közepes–magas                               |
+        | -------------------- | ------------------------------ | ------------------------------------------- |
+        | Kódolási tudás kell? | Igen                           | A teszt írásához nem, de a rendszerhez igen |
+
 
 #### ✅ Mi a különbség a TDD és BDD között?
 
+        | Szempont     | TDD                      | BDD                                     |
+        | ------------ | ------------------------ | --------------------------------------- |
+        | Fókusz       | Kód logikai működése     | Rendszer viselkedése                    |
+        | ------------ | ------------------------ | --------------------------------------- |
+        | Teszt nyelve | Programozói (technikai)  | Emberközeli (pl. Gherkin)               |
+        | ------------ | ------------------------ | --------------------------------------- |
+        | Résztvevők   | Fejlesztők               | Fejlesztők, tesztelők, üzlet            |
+        | ------------ | ------------------------ | --------------------------------------- |
+        | Teszt típus  | Egységteszt              | Funkcionális vagy rendszer szintű teszt |
+        | ------------ | ------------------------ | --------------------------------------- |
+        | Kommunikáció | Fejlesztői szinten marad | Csapaton belüli közös nyelv             |
+
+
 #### ✅ Mi az API tesztelés és miért hasznos?
 
+        Az API tesztelés azt jelenti, hogy egy alkalmazás programozási felületét (Application Programming Interface) teszteljük – tehát nem a felhasználói felületet, hanem azt, ahogy a különböző rendszerek vagy komponensek kommunikálnak egymással.
+
+        Haszna:
+
+        - Gyorsabb és stabilabb, mint UI-tesztelés
+            Nem kell betölteni a teljes weboldalt vagy alkalmazást, így gyorsabb és kevesebb hibalehetőséggel jár.
+
+        - Hamarabb elvégezhető a fejlesztési folyamatban
+            Az API már elérhető lehet akkor is, amikor még nincs kész a felhasználói felület.
+
+        - Segít elszigetelten tesztelni a logikát
+            Nem a gombokat teszteljük, hanem az adatcserét – például, hogy egy új felhasználó tényleg létrejön-e a háttérben.
+
+        - Javítja a biztonságot
+            Tesztelhetők a jogosultságok, hibakódok, nem engedélyezett hozzáférések.
+
+        - Könnyebben automatizálható
+            Rengeteg eszköz segít benne (pl. Postman, REST Assured, SoapUI), és egyszerűen beilleszthető CI/CD folyamatokba.
+
+
 #### ✅ Mi az adatvezérelt tesztelés és miért hasznos?
+
+        Az adatvezérelt tesztelés (Data-Driven Testing, DDT) olyan tesztelési módszer, ahol ugyanazt a tesztet többféle bemeneti adattal futtatjuk le. A teszt logikája ugyanaz marad, csak az adatok változnak.
+
+        Haszna:
+
+        - Időt takarít meg
+            Nem kell minden adathoz új tesztet írni – egy sablon elegendő.
+
+        - Könnyebb karbantartás
+            Ha változik egy adat, nem kell a tesztkódot módosítani, elég az adatfájlt frissíteni.
+
+        - Több teszteset fut egyszerre
+            Könnyen lefuttathatunk akár több tucat kombinációt is automatikusan.
+
+        - Automatizálásbarát
+            Tesztkeretek (pl. JUnit, TestNG, Pytest) könnyen kezelik ezt a megközelítést.
+
+        - Segít észrevenni hibákat különböző bemenetekkel
+            Például érvénytelen adatokkal, határértékekkel, üres mezőkkel stb.
+
+#### ✅ Mik a kihívások és ajánlott eljárások a dinamikusan betöltött webes elemekkel?
+
+        Főbb kihívások:
+
+        - Elem még nem elérhető, amikor a teszt keresni próbálja
+            A teszt túl gyorsan fut, az elem még nem töltődött be.
+
+        - Elem megjelenik, de nem interaktív
+            Még animációban van, vagy egy másik réteg (pl. loader) takarja.
+
+        - Elem idővel eltűnik
+            Egyes elemek csak pár pillanatig láthatók (pl. értesítések), és nehéz őket elkapni.
+
+        - DOM gyakran változik
+            Egyes weboldalak újraépítik a DOM-ot betöltéskor, így az előzőleg megtalált elem már nem létezik.
+
+        - Hibás vagy nem egyedi azonosítók
+            Dinamikusan létrejött elemeknek néha nincs stabil ID-jük vagy nevük, így nehéz őket megbízhatóan megtalálni.
+
+#### ✅ Mik a mobil tesztautomatizálás kihívásai?
+
+        Főbb kihívások:
+
+        - Eszközfragmentáció
+            Rengeteg különböző gyártó, kijelzőméret, operációs rendszer (Android, iOS, stb.).
+            Nehéz garantálni, hogy minden eszközön ugyanúgy működik a teszt.
+
+        - Operációs rendszer változatossága
+            Egyes funkciók, engedélyezések vagy viselkedések különböznek Android-verziónként vagy iOS-verziónként.
+            Egy frissítés után a régi tesztek elromolhatnak.
+
+        - Lassabb végrehajtás
+            A tesztek futtatása mobil eszközön általában lassabb, mint webes környezetben.
+            Az indítás, animációk, betöltési idők több időt vehetnek igénybe.
+
+        - Elem-azonosítás nehézsége
+            A mobil appokban az elemekhez ritkábban van stabil azonosító (id), gyakran csak XPath marad, ami törékeny.
+
+        - Kézmozdulatok tesztelése
+            Mobilon nemcsak kattintás van, hanem gesztusok: húzás, zoom, görgetés, hosszú nyomás – ezek nehezebben automatizálhatók.
+
+        - Platform-specifikus különbségek
+            Ami Androidon működik, nem biztos, hogy iOS-en is.
+            Külön kódra vagy beállításra lehet szükség.
+
+        - Hálózati és helyzeti tényezők
+            Mobilappok gyakran függnek a netkapcsolattól, GPS-től, érzékelőktől – ezek változása hibát okozhat.
+
+        - Tesztkörnyezet kiépítése
+            Fizikai eszközök vagy emulátorok kezelése bonyolultabb.
+            Tesztfarmok (pl. BrowserStack, Sauce Labs) használata külön konfigurációt igényel.
+
+        - Engedélykérések kezelése
+            A mobil OS gyakran engedélyeket kér (pl. kamera, hely) – ezeket is automatizálni kell, vagy figyelembe venni.
+
+#### ✅ Mi a különbség a CI és CD között?
+
+        | Jellemző           | CI (Continuous Integration)                            | CD (Continuous Delivery / Deployment)                                   |
+        | ------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+        | Jelentés           | Folyamatos integráció                                  | Folyamatos szállítás vagy telepítés                                     |
+        | ------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+        | Fókusz             | Kód rendszeres integrálása és tesztelése               | Kód készenlétének biztosítása és telepítése                             |
+        | ------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+        | Automatizálás      | Automatikus tesztelés minden kódváltoztatás után       | Automatikus build és telepítés (Deployment esetén teljesen automatikus) |
+        | ------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+        | Cél                | Hibák korai felismerése, fejlesztési ciklus gyorsítása | Gyors, megbízható és rendszeres kiadások biztosítása                    |
+        | ------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------- |
+        | Emberi beavatkozás | Nem szükséges integrációhoz                            | Delivery: Manuális telepítés, Deployment: Nincs                         |
+        | ------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------- w
+        | Hol történik       | Fejlesztői környezet / tesztkörnyezet                  | Teszt- és éles környezet                                                |
+
+#### ✅ Írj le egy Continuous Delivery folyamatot!
+
+        Continuous Delivery folyamata
+
+        1. Kód írása és verziókezelés
+            A fejlesztők a kódot helyi gépükön írják, majd egy verziókezelő rendszerbe (pl. Git) commitolják és pusholják a központi tárolóba (pl. GitHub, GitLab).
+
+        2. Automatikus build és integráció (CI része)
+            Amint új kód érkezik a központi tárolóba, elindul a build folyamat, amely automatikusan összeállítja az alkalmazást, és lefuttatja az egység- és integrációs teszteket.
+
+        3. Automatizált tesztek
+            A build után további automatizált tesztek futnak (pl. funkcionális, rendszer- vagy biztonsági tesztek), hogy biztosítsák a kód minőségét.
+
+        4. Artifact tárolása
+            Ha a tesztek sikeresek, a kész buildből létrejön egy deploy-olható csomag (artifact), amit egy központi tárhelyen tárolnak (pl. Nexus, Artifactory).
+
+        5. Deploy tesztkörnyezetbe
+            Az artifact automatikusan telepítésre kerül egy teszt vagy staging környezetbe, ahol további manuális vagy automatizált tesztek, ellenőrzések zajlanak.
+
+        6. Manuális jóváhagyás
+            Amikor a tesztkörnyezetben minden rendben van, egy illetékes személy (pl. release manager) jóváhagyja a telepítést az éles környezetbe.
+
+        7. Éles telepítés
+            A jóváhagyás után a deploy csomag telepítésre kerül az éles környezetbe – ez a lépés még nem automatikus, hanem manuális a CD keretrendszerben.
+
+        8. Monitoring és visszacsatolás
+            Az éles környezetben folyamatosan figyelik az alkalmazás működését, hibákat, teljesítményt, hogy szükség esetén gyorsan reagálhassanak.
+            
+#### ✅ Hasonlítsd össze két népszerű CI rendszert, ezek közül az egyik legyen a Jenkins!
+
+    | Jellemző                 | Jenkins                                                                   | GitHub Actions                                                        |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Telepítés                | Saját szerverre telepítendő (on-premise) vagy felhőben futtatható         | Felhőalapú, közvetlenül GitHub-on működik                             |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Kezelés                  | Több adminisztráció, konfiguráció, plugin menedzsment szükséges           | Egyszerűbb, GitHub repo-ba integrált                                  |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Bővíthetőség             | Rendkívül bővíthető, több ezer plugin érhető el                           | Korlátozottabb, de folyamatosan fejlődik                              |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Felhasználói felület     | Régebbi, kevésbé modern, de testreszabható                                | Modern, GitHub-hoz illeszkedő UI                                      |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Integráció               | Széleskörű integrációs lehetőségek különböző eszközökkel és rendszerekkel | Kiváló integráció GitHub projektekhez és más GitHub szolgáltatásokhoz |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Skálázhatóság            | Nagyobb szabadság a skálázásban, saját erőforrásoktól függ                | Automatikus skálázódás GitHub infrastruktúrán                         |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Ár                       | Ingyenes nyílt forrású, de infrastruktúra költséges lehet                 | Alap használat ingyenes, de nagyobb igények esetén fizetős            |
+    | ------------------------ | ------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+    | Tanulási görbe           | Meredekebb, mert sok konfigurációs lehetőség és plugin van                | Közepes, könnyű beállítani egyszerű munkafolyamatokat                 |
+
+#### ✅ Mi a Docker és miért hasznos?
+
+    Docker egy konténerizációs platform, amely lehetővé teszi, hogy egy alkalmazást és annak függőségeit egy könnyen hordozható, elkülönített „konténerbe” csomagoljunk.
+
+    Miért hasznos:
+
+    - Környezeti egységesség: 
+        A konténer ugyanúgy fut minden gépen (fejlesztői laptop, teszt szerver, éles környezet), így elkerülhetők a „nálam működik” típusú problémák.
+
+    - Gyorsabb telepítés: 
+        A konténerek könnyen és gyorsan indíthatók, nem kell hosszú telepítési vagy konfigurációs folyamatokat futtatni.
+
+    - Erőforrás-hatékonyság: 
+        Konténerek könnyebbek, mint a virtuális gépek, mert ugyanazt az operációs rendszermagot használják.
+
+    - Skálázhatóság: 
+        Egyszerűen lehet több példányt futtatni az alkalmazásból, így könnyebb skálázni.
+
+    - Izoláció: 
+        A konténerek elkülönítik az alkalmazásokat egymástól, így stabilabb és biztonságosabb futtatást biztosítanak.
+
+
  
 
 <img src="https://t4.ftcdn.net/jpg/03/90/15/65/360_F_390156585_8w1lsOyICIAOvDCU8tExXW2QwLCOFwXD.jpg" alt="image" width="550" height="400">
